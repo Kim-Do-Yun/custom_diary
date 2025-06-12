@@ -5,25 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8711c2b7-2d77-4218-9768-9d4235636aca" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../../.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/META-INF/MANIFEST.MF" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/config/RestTemplateConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/verbose_classes.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../download_local_inference_model_and_pip.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../local_inference.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/domain/diary/dto/StructuredPrompt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/domain/diary/dto/StructuredPrompt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/domain/diary/entity/SeedPreference.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/domain/diary/entity/SeedPreference.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/domain/diary/entity/SeedPreferenceKey.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/domain/diary/entity/SeedPreferenceKey.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/domain/diary/repository/SeedPreferenceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/domain/diary/repository/SeedPreferenceRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/domain/diary/service/PromptExtractionService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/domain/diary/service/WebtoonFlowService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/domain/diary/service/WebtoonFlowService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/domain/user/repository/ArtStyleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/domain/user/repository/ArtStyleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

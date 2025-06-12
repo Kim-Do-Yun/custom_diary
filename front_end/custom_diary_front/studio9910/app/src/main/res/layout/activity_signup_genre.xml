@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:ignore="TouchTargetSizeCheck">
+
+    <!-- 뒤로가기 버튼 -->
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_back"
+        app:tint="#222222"
+        android:padding="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless" />
+
+    <!-- 회원가입 타이틀 -->
+    <TextView
+        android:id="@+id/signupTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="회원가입"
+        android:textSize="18sp"
+        android:textColor="#222222"
+        android:fontFamily="@font/pretendardvariable"
+        android:fontWeight="600"
+        app:layout_constraintTop_toTopOf="@id/backButton"
+        app:layout_constraintBottom_toBottomOf="@id/backButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 스크롤 가능한 컨텐츠 영역 -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/backButton"
+        app:layout_constraintBottom_toTopOf="@id/nextButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- 타이틀 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="선호하는 웹툰 장르를\n선택해주세요"
+                android:textSize="26sp"
+                android:textColor="#222222"
+                android:fontFamily="@font/pretendardvariable"
+                android:fontWeight="800"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="12dp" />
+
+            <!-- 선택 개수 및 안내 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="32dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="최대 5개까지 선택 가능"
+                    android:textSize="14sp"
+                    android:textColor="#666666"
+                    android:fontFamily="@font/pretendardvariable"
+                    android:fontWeight="500" />
+
+                <TextView
+                    android:id="@+id/selectedCountText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0/5"
+                    android:textSize="14sp"
+                    android:textColor="#FF6F61"
+                    android:fontFamily="@font/pretendardvariable"
+                    android:fontWeight="600" />
+            </LinearLayout>
+
+            <!-- 로맨스 카테고리 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="💝 로맨스"
+                android:textSize="16sp"
+                android:textColor="#222222"
+                android:fontFamily="@font/pretendardvariable"
+                android:fontWeight="600"
+                android:layout_marginBottom="12dp" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:flexWrap="wrap"
+                app:justifyContent="flex_start"
+                app:alignItems="stretch"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:id="@+id/genre_romance"
+                    style="@style/GenreButtonStyle"
+                    android:text="로맨스" />
+
+                <TextView
+                    android:id="@+id/genre_pure"
+                    style="@style/GenreButtonStyle"
+                    android:text="순정" />
+
+                <TextView
+                    android:id="@+id/genre_romance_fantasy"
+                    style="@style/GenreButtonStyle"
+                    android:text="로맨스판타지" />
+
+                <TextView
+                    android:id="@+id/genre_sweet"
+                    style="@style/GenreButtonStyle"
+                    android:text="달달함" />
+
+                <TextView
+                    android:id="@+id/genre_campus"
+                    style="@style/GenreButtonStyle"
+                    android:text="캠퍼스" />
+
+                <TextView
+                    android:id="@+id/genre_office"
+                    style="@style/GenreButtonStyle"
+                    android:text="직장" />
+
+                <TextView
+                    android:id="@+id/genre_age_gap"
+                    style="@style/GenreButtonStyle"
+                    android:text="연상연하" />
+
+                <TextView
+                    android:id="@+id/genre_reunion"
+                    style="@style/GenreButtonStyle"
+                    android:text="재회" />
+
+                <TextView
+                    android:id="@+id/genre_first_love"
+                    style="@style/GenreButtonStyle"
+                    android:text="첫사랑" />
+
+                <TextView
+                    android:id="@+id/genre_contract"
+                    style="@style/GenreButtonStyle"
+                    android:text="계약연애" />
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <!-- 액션/판타지 카테고리 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="⚔️ 액션/판타지"
+                android:textSize="16sp"
+                android:textColor="#222222"
+                android:fontFamily="@font/pretendardvariable"
+                android:fontWeight="600"
+                android:layout_marginBottom="12dp" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:flexWrap="wrap"
+                app:justifyContent="flex_start"
+                app:alignItems="stretch"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:id="@+id/genre_action"
+                    style="@style/GenreButtonStyle"
+                    android:text="액션" />
+
+                <TextView
+                    android:id="@+id/genre_fantasy"
+                    style="@style/GenreButtonStyle"
+                    android:text="판타지" />
+
+                <TextView
+                    android:id="@+id/genre_martial_arts"
+                    style="@style/GenreButtonStyle"
+                    android:text="무협" />
+
+                <TextView
+                    android:id="@+id/genre_sf"
+                    style="@style/GenreButtonStyle"
+                    android:text="SF" />
+
+                <TextView
+                    android:id="@+id/genre_adventure"
+                    style="@style/GenreButtonStyle"
+                    android:text="모험" />
+
+                <TextView
+                    android:id="@+id/genre_ability"
+                    style="@style/GenreButtonStyle"
+                    android:text="능력" />
+
+                <TextView
+                    android:id="@+id/genre_magic"
+                    style="@style/GenreButtonStyle"
+                    android:text="마법" />
+
+                <TextView
+                    android:id="@+id/genre_isekai"
+                    style="@style/GenreButtonStyle"
+                    android:text="이세계" />
+
+                <TextView
+                    android:id="@+id/genre_regression"
+                    style="@style/GenreButtonStyle"
+                    android:text="회귀" />
+
+                <TextView
+                    android:id="@+id/genre_reincarnation"
+                    style="@style/GenreButtonStyle"
+                    android:text="환생" />
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <!-- 드라마/일상 카테고리 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🌱 드라마/일상"
+                android:textSize="16sp"
+                android:textColor="#222222"
+                android:fontFamily="@font/pretendardvariable"
+                android:fontWeight="600"
+                android:layout_marginBottom="12dp" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:flexWrap="wrap"
+                app:justifyContent="flex_start"
+                app:alignItems="stretch"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:id="@+id/genre_drama"
+                    style="@style/GenreButtonStyle"
+                    android:text="드라마" />
+
+                <TextView
+                    android:id="@+id/genre_daily"
+                    style="@style/GenreButtonStyle"
+                    android:text="일상" />
+
+                <TextView
+                    android:id="@+id/genre_healing"
+                    style="@style/GenreButtonStyle"
+                    android:text="힐링" />
+
+                <TextView
+                    android:id="@+id/genre_growth"
+                    style="@style/GenreButtonStyle"
+                    android:text="성장" />
+
+                <TextView
+                    android:id="@+id/genre_family"
+                    style="@style/GenreButtonStyle"
+                    android:text="가족" />
+
+                <TextView
+                    android:id="@+id/genre_friendship"
+                    style="@style/GenreButtonStyle"
+                    android:text="우정" />
+
+                <TextView
+                    android:id="@+id/genre_school"
+                    style="@style/GenreButtonStyle"
+                    android:text="학교" />
+
+                <TextView
+                    android:id="@+id/genre_youth"
+                    style="@style/GenreButtonStyle"
+                    android:text="청춘" />
+
+                <TextView
+                    android:id="@+id/genre_touching"
+                    style="@style/GenreButtonStyle"
+                    android:text="감동" />
+
+                <TextView
+                    android:id="@+id/genre_human"
+                    style="@style/GenreButtonStyle"
+                    android:text="휴먼" />
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <!-- 스릴러/공포 카테고리 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🔥 스릴러/공포"
+                android:textSize="16sp"
+                android:textColor="#222222"
+                android:fontFamily="@font/pretendardvariable"
+                android:fontWeight="600"
+                android:layout_marginBottom="12dp" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:flexWrap="wrap"
+                app:justifyContent="flex_start"
+                app:alignItems="stretch"
+                android:layout_marginBottom="32dp">
+
+                <TextView
+                    android:id="@+id/genre_thriller"
+                    style="@style/GenreButtonStyle"
+                    android:text="스릴러" />
+
+                <TextView
+                    android:id="@+id/genre_horror"
+                    style="@style/GenreButtonStyle"
+                    android:text="공포" />
+
+                <TextView
+                    android:id="@+id/genre_mystery"
+                    style="@style/GenreButtonStyle"
+                    android:text="미스터리" />
+
+                <TextView
+                    android:id="@+id/genre_suspense"
+                    style="@style/GenreButtonStyle"
+                    android:text="서스펜스" />
+
+                <TextView
+                    android:id="@+id/genre_crime"
+                    style="@style/GenreButtonStyle"
+                    android:text="범죄" />
+
+                <TextView
+                    android:id="@+id/genre_psychology"
+                    style="@style/GenreButtonStyle"
+                    android:text="심리" />
+
+                <TextView
+                    android:id="@+id/genre_revenge"
+                    style="@style/GenreButtonStyle"
+                    android:text="복수" />
+
+                <TextView
+                    android:id="@+id/genre_survival"
+                    style="@style/GenreButtonStyle"
+                    android:text="생존" />
+
+                <TextView
+                    android:id="@+id/genre_zombie"
+                    style="@style/GenreButtonStyle"
+                    android:text="좀비" />
+
+                <TextView
+                    android:id="@+id/genre_detective"
+                    style="@style/GenreButtonStyle"
+                    android:text="추리" />
+            </com.google.android.flexbox.FlexboxLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- 다음 버튼 -->
+    <TextView
+        android:id="@+id/nextButton"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:text="다음"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/pretendardvariable"
+        android:fontWeight="600"
+        android:gravity="center"
+        android:background="@drawable/button_disabled_background"
+        android:clickable="false"
+        android:focusable="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="32dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout> 

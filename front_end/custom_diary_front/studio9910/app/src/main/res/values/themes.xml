@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Studio9910" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+    </style>
+
+    <style name="Theme.Studio9910" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="fontFamily">@font/pretendardvariable</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+
+        <!-- AndroidX Core SplashScreen 라이브러리 속성 (모든 API 레벨에서 사용) -->
+        <item name="windowSplashScreenBackground">@android:color/transparent</item>
+        <item name="windowSplashScreenAnimatedIcon">@android:color/transparent</item>
+        <item name="windowSplashScreenAnimationDuration">0</item>
+
+        <!-- 플랫폼(Android 12+) 전용 속성: Lint NewApi 오류 무시 -->
+        <item
+            name="android:windowSplashScreenBackground"
+            tools:ignore="NewApi"
+            tools:targetApi="31"
+            >@android:color/transparent</item>
+        <item
+            name="android:windowSplashScreenAnimatedIcon"
+            tools:ignore="NewApi"
+            tools:targetApi="31"
+            >@android:color/transparent</item>
+        <item
+            name="android:windowSplashScreenAnimationDuration"
+            tools:ignore="NewApi"
+            tools:targetApi="31"
+            >0</item>
+    </style>
+
+    <style name="Theme.Studio9910.Splash" parent="Theme.Studio9910">
+        <item name="android:windowBackground">@drawable/landing_background</item>
+
+        <!-- AndroidX Core SplashScreen 라이브러리 속성 -->
+        <item name="windowSplashScreenBackground">@android:color/transparent</item>
+        <item name="windowSplashScreenAnimatedIcon">@android:color/transparent</item>
+        <item name="windowSplashScreenAnimationDuration">0</item>
+
+        <!-- 플랫폼(Android 12+) 전용 속성: Lint NewApi 오류 무시 -->
+        <item
+            name="android:windowSplashScreenBackground"
+            tools:ignore="NewApi"
+            tools:targetApi="31"
+            >@android:color/transparent</item>
+        <item
+            name="android:windowSplashScreenAnimatedIcon"
+            tools:ignore="NewApi"
+            tools:targetApi="31"
+            >@android:color/transparent</item>
+        <item
+            name="android:windowSplashScreenAnimationDuration"
+            tools:ignore="NewApi"
+            tools:targetApi="31"
+            >0</item>
+    </style>
+
+</resources>
