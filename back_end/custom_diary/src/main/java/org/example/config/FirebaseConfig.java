@@ -16,7 +16,7 @@ public class FirebaseConfig {
     public FirebaseApp firebaseApp() throws IOException {
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(
-                        new ClassPathResource("customservice-bc346-firebase-adminsdk-fbsvc-00f4029def.json").getInputStream()))
+                        new ClassPathResource("customservice-bc346-firebase-adminsdk-fbsvc-a2eae67f4b.json").getInputStream()))
                 .build();
 
         return FirebaseApp.initializeApp(options);

@@ -5,10 +5,18 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 data class SignupRequest(
-    val email: String,
+    val idToken: String,  // Firebase 토큰
     val password: String,
-    val genres: List<String>,
-    val artStyle: String
+    val terms: List<TermAgreementDTO>,
+    val gender: String,  // "M", "F", "O"
+    val birthDate: String,  // "YYYY-MM-DD" 형식
+    val genreIds: List<Long>,
+    val artStylePrompt: Map<String, String>
+)
+
+data class TermAgreementDTO(
+    val termId: Long,
+    val agreed: Boolean
 )
 
 data class SignupResponse(

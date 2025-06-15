@@ -24,8 +24,10 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        // 로그인/회원가입 경로는 필터를 통과
-        if (request.getRequestURI().startsWith("/api/auth/")) {
+
+        // 1) 서블릿 경로(컨텍스트 패스 제외)로 검사
+        String servletPath = request.getServletPath();
+        if (servletPath.startsWith("/api/auth/")) {
             filterChain.doFilter(request, response);
             return;
         }
