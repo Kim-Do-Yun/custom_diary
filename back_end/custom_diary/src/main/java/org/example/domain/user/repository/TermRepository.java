@@ -7,5 +7,5 @@ import java.util.Optional;
 
 @Repository
 public interface TermRepository extends JpaRepository<Term, Long> {
-    Optional<Term> findByCode(String code);
+    Optional<Term> findByTermId(Long termId);
 }

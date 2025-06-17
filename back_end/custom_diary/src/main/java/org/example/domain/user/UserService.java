@@ -13,8 +13,12 @@ import org.example.domain.user.repository.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,73 +35,94 @@ public class UserService {
     private final FirebaseAuth firebaseAuth;
     private final FolderService folderService;
 
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
+
+    // style1 ~ style6 에 대한 매핑
+    private static final Map<String, String> STYLE_PROMPT_MAP = Map.of(
+            "style1", "로맨틱",
+            "style2", "모던",
+            "style3", "클래식",
+            "style4", "미니멀",
+            "style5", "판타지",
+            "style6", "큐트"
+    );
+
     @Transactional
     public SignupResponseDTO registerUser(SignupRequestDTO req) {
-        // Firebase 토큰 검증
+        // 1. Firebase 토큰 검증
         FirebaseToken decodedToken;
         try {
             decodedToken = firebaseAuth.verifyIdToken(req.getIdToken());
         } catch (FirebaseAuthException e) {
+            log.error("Firebase 토큰 검증 실패: {}", e.getMessage());
             throw new RuntimeException("Firebase 토큰 검증 실패", e);
         }
 
-        // 이미 존재하는 사용자 확인
-        if (userRepo.existsByFirebaseUid(decodedToken.getUid())) {
-            throw new RuntimeException("이미 존재하는 사용자입니다.");
-        }
         String uid = decodedToken.getUid();
         String email = decodedToken.getEmail();
 
-        // 2) User 저장
+        if (userRepo.existsByFirebaseUid(uid)) {
+            throw new RuntimeException("이미 존재하는 사용자입니다.");
+        }
+
+        // 2. 사용자 저장
         User user = new User(
-                decodedToken.getUid(),
-                decodedToken.getEmail(),
+                uid,
+                email,
                 req.getGender(),
                 passwordEncoder.encode(req.getPassword()),
                 req.getBirthDate()
         );
         userRepo.save(user);
 
-        // ===> 2-1) 기본 폴더 초기화 (Bookmark, Weekly Webtoon)
+        // 2-1. 기본 폴더 생성
         folderService.initializeDefaultFolders(uid);
 
-        // 3) 약관 동의 저장
+        // 3. 약관 동의 저장
         for (TermAgreementDTO t : req.getTerms()) {
-            Term term = termRepo.findByCode(t.getCode())
-                    .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 약관 코드: " + t.getCode()));
+            Term term = termRepo.findByTermId(t.getTermId())
+                    .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 약관 ID: " + t.getTermId()));
+
             UserTerm ut = new UserTerm();
-            UserTermKey key = new UserTermKey(); key.setUserId(uid); key.setTermId(term.getId());
+            UserTermKey key = new UserTermKey();
+            key.setUserId(uid);
+            key.setTermId(term.getId());
+
             ut.setId(key);
             ut.setUser(user);
             ut.setTerm(term);
             ut.setAgreed(t.isAgreed());
             ut.setCreatedAt(LocalDateTime.now());
+
             userTermRepo.save(ut);
         }
 
-        // 4) 장르 선택 저장
-        for (Long gid : req.getGenreIds()) {
-            Genre g = genreRepo.findById(gid)
-                    .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 장르 ID: " + gid));
+        // 4. 장르 선택 저장
+        for (String genreName : req.getGenreNames()) {
+            Genre g = genreRepo.findByName(genreName)
+                    .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 장르명: " + genreName));
+
             UserGenre ug = new UserGenre();
-            UserGenreKey k2 = new UserGenreKey(); k2.setUserId(uid); k2.setGenreId(gid);
+            UserGenreKey k2 = new UserGenreKey();
+            k2.setUserId(uid);
+            k2.setGenreId(g.getId());
+
             ug.setId(k2);
             ug.setUser(user);
             ug.setGenre(g);
             userGenreRepo.save(ug);
         }
 
-        ArtStyle style = new ArtStyle();
-        // 5) 기본 그림체 프롬프트 저장
-        try {
-            style.setUser(user);
-            style.setPrompt(objectMapper.writeValueAsString(req.getArtStylePrompt()));
-            artStyleRepo.save(style);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("그림체 프롬프트 직렬화 실패", e);
-        }
+        // 5. 그림체 스타일 저장
+        String prompt = STYLE_PROMPT_MAP.getOrDefault(req.getArtStyleId(), "로맨틱");
 
-        // 6) 응답 작성
+        ArtStyle style = new ArtStyle();
+        style.setUser(user);
+        style.setPrompt(prompt);
+        style.setCreatedAt(LocalDateTime.now());
+        artStyleRepo.save(style);
+
+        // 6. 응답 구성
         SignupResponseDTO res = new SignupResponseDTO();
         res.setFirebaseUid(uid);
         res.setEmail(email);
@@ -106,14 +131,20 @@ public class UserService {
         res.setAgreedTermCodes(
                 req.getTerms().stream()
                         .filter(TermAgreementDTO::isAgreed)
-                        .map(TermAgreementDTO::getCode)
+                        .map(TermAgreementDTO::getTermId)
                         .collect(Collectors.toList())
         );
-        res.setGenreIds(req.getGenreIds());
+        res.setGenreNames(
+                userGenreRepo.findByUser(user).stream()
+                        .map(ug -> ug.getGenre().getName())
+                        .collect(Collectors.toList())
+        );
+
         res.setArtStyleId(style.getId());
 
         return res;
     }
+
 
     @Transactional(readOnly = true)
     public AuthResponseDTO loginUser(LoginRequestDTO loginDTO) {

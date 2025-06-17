@@ -7,6 +7,7 @@ import org.example.domain.user.dto.SignupResponseDTO;
 import org.example.domain.user.entity.User;
 import org.example.domain.user.dto.SignupRequestDTO;
 import org.example.domain.user.dto.LoginRequestDTO;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class AuthController {
             @Valid @RequestBody SignupRequestDTO req) {
         try {
             SignupResponseDTO res = userService.registerUser(req);
-            return ResponseEntity.ok(res);
+            return ResponseEntity.status(HttpStatus.CREATED).body(res);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }

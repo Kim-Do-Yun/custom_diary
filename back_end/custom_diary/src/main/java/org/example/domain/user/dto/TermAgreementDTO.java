@@ -1,12 +1,12 @@
 package org.example.domain.user.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 
 @Data
 public class TermAgreementDTO {
-    @NotBlank
-    private String code;
+    @NotNull
+    private Long termId;
     private boolean agreed;
 }

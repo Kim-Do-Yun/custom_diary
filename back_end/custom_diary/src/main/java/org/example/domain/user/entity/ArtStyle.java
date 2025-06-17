@@ -22,8 +22,8 @@ public class ArtStyle {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(columnDefinition = "jsonb", nullable = false)
-    private String prompt;              // JSON 형태 문자열로 저장
+    @Column(nullable = false)
+    private String prompt; ;              // JSON 형태 문자열로 저장
 
     @Column(nullable = false)
     private LocalDateTime createdAt;

@@ -1,6 +1,6 @@
 package org.example.domain.user.dto;
 
-import com.google.firebase.database.annotations.NotNull;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -21,15 +21,15 @@ public class SignupRequestDTO {
     private List<TermAgreementDTO> terms;
 
     @NotBlank
-    @Pattern(regexp = "[MFO]")
-    private String gender; // 'M','F','O'
+    @Pattern(regexp = "[MFO]")  // 남(M), 여(F), 기타(O)
+    private String gender;
 
     @NotNull
     private LocalDate birthDate;
 
     @NotEmpty
-    private List<Long> genreIds;
+    private List<String> genreNames;
 
     @NotNull
-    private Map<String, String> artStylePrompt;  // JSON 형태의 key/values
+    private String artStyleId;
 }

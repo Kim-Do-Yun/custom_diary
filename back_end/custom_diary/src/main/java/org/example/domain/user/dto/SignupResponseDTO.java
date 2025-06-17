@@ -13,7 +13,7 @@ public class SignupResponseDTO {
     private String password;
     private String gender;
     private LocalDate birthDate;
-    private List<String> agreedTermCodes;
-    private List<Long> genreIds;
+    private List<Long> agreedTermCodes;
+    private List<String> genreNames;
     private Long artStyleId;
 }

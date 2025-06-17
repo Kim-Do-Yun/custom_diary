@@ -10,8 +10,8 @@ data class SignupRequest(
     val terms: List<TermAgreementDTO>,
     val gender: String,  // "M", "F", "O"
     val birthDate: String,  // "YYYY-MM-DD" 형식
-    val genreIds: List<Long>,
-    val artStylePrompt: Map<String, String>
+    val genreNames: List<String>,
+    val artStyleId: String
 )
 
 data class TermAgreementDTO(

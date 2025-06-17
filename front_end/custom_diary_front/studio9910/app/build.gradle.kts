@@ -66,4 +66,10 @@ dependencies {
 
     implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
     implementation("com.google.firebase:firebase-analytics")
+
+    // Firebase Auth (Kotlin용)
+    implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
+
+    // Coroutines for Firebase Task API
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 }

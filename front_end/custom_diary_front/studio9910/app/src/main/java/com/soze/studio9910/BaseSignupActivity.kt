@@ -17,6 +17,10 @@ abstract class BaseSignupActivity : AppCompatActivity() {
     protected var userPassword: String? = null
     protected var selectedGenres: ArrayList<String>? = null
     protected var selectedArtStyle: String? = null
+    // ✅ 추가: 다음 단계로 전달할 추가 정보
+    protected var selectedGender: String? = null           // ex: "MALE"
+    protected var selectedBirthDate: String? = null        // ex: "2001-04-01"
+    protected var termAgreementMap: HashMap<String, Boolean>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +74,10 @@ abstract class BaseSignupActivity : AppCompatActivity() {
         userPassword = intent.getStringExtra("password")
         selectedGenres = intent.getStringArrayListExtra("selectedGenres")
         selectedArtStyle = intent.getStringExtra("selectedArtStyle")
+        // ✅ 추가: intent로부터 추가 값 수신
+        selectedGender = intent.getStringExtra("selectedGender")
+        selectedBirthDate = intent.getStringExtra("selectedBirthDate")
+        termAgreementMap = intent.getSerializableExtra("termAgreementMap") as? HashMap<String, Boolean>
     }
 
     protected fun updateNextButton(isEnabled: Boolean) {
@@ -99,6 +107,10 @@ abstract class BaseSignupActivity : AppCompatActivity() {
                 if (!hasExtra("password")) putExtra("password", userPassword)
                 if (!hasExtra("selectedGenres")) putStringArrayListExtra("selectedGenres", selectedGenres)
                 if (!hasExtra("selectedArtStyle")) putExtra("selectedArtStyle", selectedArtStyle)
+                // ✅ 추가 정보 전달
+                if (!hasExtra("selectedGender")) putExtra("selectedGender", selectedGender)
+                if (!hasExtra("selectedBirthDate")) putExtra("selectedBirthDate", selectedBirthDate)
+                if (!hasExtra("termAgreementMap")) putExtra("termAgreementMap", termAgreementMap)
             }
             startActivity(intent)
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)

@@ -19,7 +19,7 @@ public class Term {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String code;             // 예: "personal_info", "marketing"
+    private Long termId;
 
     @Column(columnDefinition = "TEXT")
     private String description;

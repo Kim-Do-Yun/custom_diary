@@ -1,5 +1,6 @@
 package com.soze.studio9910
 
+import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
@@ -7,6 +8,9 @@ import com.soze.studio9910.api.SignupRequest
 import com.soze.studio9910.api.RetrofitClient
 import com.soze.studio9910.utils.UIUtils
 import kotlinx.coroutines.launch
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.tasks.await
+import com.soze.studio9910.api.TermAgreementDTO
 
 class SignupArtStyleActivity : BaseSignupActivity() {
 
@@ -39,29 +43,70 @@ class SignupArtStyleActivity : BaseSignupActivity() {
         nextButton.setOnClickListener {
             if (!isValidForNext()) return@setOnClickListener
 
-            // 코루틴으로 API 호출
             lifecycleScope.launch {
-                // 로딩 UI 띄우기
+                Log.d("SignupDebug", "Firebase 회원 생성 시작")
                 nextButton.isEnabled = false
                 nextButton.text = "가입 중..."
 
                 try {
-                    // 요청 객체 생성
+                    val authResult = FirebaseAuth.getInstance()
+                        .createUserWithEmailAndPassword(userEmail!!, userPassword!!)
+                        .await()
+                    Log.d("SignupDebug", "Firebase 회원 생성 성공")
+
+                    val firebaseUser = authResult.user
+                    val idToken = firebaseUser?.getIdToken(true)?.await()?.token
+
+                    Log.d("SignupDebug", "Firebase ID Token: $idToken")
+                    Log.d("SignupDebug", "userEmail: $userEmail")
+                    Log.d("SignupDebug", "userPassword: $userPassword")
+                    Log.d("SignupDebug", "selectedGender: $selectedGender")
+                    Log.d("SignupDebug", "selectedBirthDate: $selectedBirthDate")
+                    Log.d("SignupDebug", "selectedGenres: $selectedGenres")
+                    Log.d("SignupDebug", "currentSelectedArtStyle: $currentSelectedArtStyle")
+                    Log.d("SignupDebug", "termAgreementMap: $termAgreementMap")
+
+                    if (idToken == null ||
+                        userPassword == null ||
+                        selectedGender == null ||
+                        selectedBirthDate == null ||
+                        currentSelectedArtStyle == null ||
+                        userEmail == null ||
+                        selectedGenres == null ||
+                        termAgreementMap == null
+                    ) {
+                        Log.e("SignupDebug", "필수 데이터 누락 - null 발생")
+                        Toast.makeText(this@SignupArtStyleActivity, "입력 정보가 누락되었습니다.", Toast.LENGTH_LONG).show()
+                        nextButton.isEnabled = true
+                        nextButton.text = "회원가입 완료"
+                        return@launch
+                    }
+
+                    val termAgreementList = termAgreementMap?.map { (termIdStr, agreed) ->
+                        TermAgreementDTO(termIdStr.toLong(), agreed)
+                    } ?: emptyList()
+                    Log.d("SignupDebug", "TermAgreement 변환 완료: $termAgreementList")
+
                     val req = SignupRequest(
-                        email = userEmail!!,
+                        idToken = idToken,
                         password = userPassword!!,
-                        genres = selectedGenres ?: emptyList(),
-                        artStyle = currentSelectedArtStyle!!
+                        terms = termAgreementList,
+                        gender = selectedGender!!,
+                        birthDate = selectedBirthDate!!,
+                        genreNames = selectedGenres!!,
+                        artStyleId = currentSelectedArtStyle!!
                     )
+                    Log.d("SignupDebug", "최종 요청 생성됨: $req")
 
-                    // 서버 호출
                     val response = RetrofitClient.apiService.signup(req)
+                    Log.d("SignupDebug", "응답 코드: ${response.code()}")
+                    Log.d("SignupDebug", "응답 body: ${response.body()}")
+                    Log.d("SignupDebug", "응답 errorBody: ${response.errorBody()?.string()}")
 
-                    if (response.isSuccessful && response.body()?.success == true) {
-                        // 가입 성공 -> 메인 화면 이동
+                    val body = response.body()
+                    if (response.isSuccessful && body != null) {
                         goToMainPage()
                     } else {
-                        // 실패 메시지 토스트
                         val code = response.code()
                         val errorBody = response.errorBody()?.string()
                         Toast.makeText(
@@ -72,11 +117,12 @@ class SignupArtStyleActivity : BaseSignupActivity() {
                         nextButton.isEnabled = true
                         nextButton.text = "회원가입 완료"
                     }
+
                 } catch (e: Exception) {
-                    // 네트워크/예외 처리
+                    Log.e("SignupDebug", "예외 발생: ${e.message}", e)
                     Toast.makeText(
                         this@SignupArtStyleActivity,
-                        "네트워크 에러: ${e.localizedMessage}",
+                        "네트워크 에러: ${e.message ?: e.toString()}",
                         Toast.LENGTH_LONG
                     ).show()
                     nextButton.isEnabled = true
@@ -99,11 +145,11 @@ class SignupArtStyleActivity : BaseSignupActivity() {
     }
 
     private fun selectArtStyle(styleId: String, selectedImageView: ImageView) {
-        // 이전 선택 해제
         resetAllArtStyles()
 
-        // 새로운 선택 적용
         currentSelectedArtStyle = styleId
+        selectedArtStyle = styleId // ✅ BaseSignupActivity에 저장
+
         UIUtils.updateSelectableItemBackground(
             this,
             selectedImageView,
@@ -131,7 +177,7 @@ class SignupArtStyleActivity : BaseSignupActivity() {
         val intent = android.content.Intent(this, MainPageActivity::class.java).apply {
             putExtra("email", userEmail)
             putExtra("password", userPassword)
-            putStringArrayListExtra("selectedGenres", selectedGenres)
+            putStringArrayListExtra("selectedGenres", ArrayList(selectedGenres)) // ✅ 변환
             putExtra("selectedArtStyle", currentSelectedArtStyle)
         }
         startActivity(intent)
