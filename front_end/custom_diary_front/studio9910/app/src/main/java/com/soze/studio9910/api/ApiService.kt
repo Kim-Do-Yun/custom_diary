@@ -20,13 +20,35 @@ data class TermAgreementDTO(
 )
 
 data class SignupResponse(
-    val success: Boolean,
-    val message: String
+    val firebaseUid: String,
+    val email: String,
+    val password: String,
+    val gender: String,
+    val birthDate: String,
+    val agreedTermCodes: List<Long>,
+    val genreNames: List<String>,
+    val artStyleId: String
+)
+
+data class LoginRequest(
+    val idToken: String
+)
+
+data class LoginResponse(
+    val firebaseUid: String,
+    val email: String,
+    val gender: String,
+    val password: String,
+    val birthDate: String,
+    val createdAt: String
 )
 
 
 interface ApiService {
     @POST("api/auth/register")
     suspend fun signup(@Body req: SignupRequest): Response<SignupResponse>
+
+    @POST("api/auth/login")
+    suspend fun login(@Body req: LoginRequest): Response<LoginResponse>
 }
 

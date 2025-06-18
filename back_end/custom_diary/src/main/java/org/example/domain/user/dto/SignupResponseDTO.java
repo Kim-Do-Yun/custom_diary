@@ -15,5 +15,5 @@ public class SignupResponseDTO {
     private LocalDate birthDate;
     private List<Long> agreedTermCodes;
     private List<String> genreNames;
-    private Long artStyleId;
+    private String artStyleId;
 }

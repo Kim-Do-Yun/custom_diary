@@ -140,7 +140,7 @@ public class UserService {
                         .collect(Collectors.toList())
         );
 
-        res.setArtStyleId(style.getId());
+        res.setArtStyleId(String.valueOf(style.getId()));
 
         return res;
     }
